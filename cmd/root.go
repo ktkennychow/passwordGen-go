@@ -34,14 +34,17 @@ func generateRandomPassword(length int, sC bool) string {
 var rootCmd = &cobra.Command{
 	Use:   "Explain passwordGen",
 	Short: `PasswordGen is a CLI application for password generation.`,
-	Long: `PasswordGen is a CLI application for password generation.
-
-  --length, -t    to specify password length. (default 8)
-  --special, -s   to include special characters in the generated password`,
+	Long:  `PasswordGen is a CLI application for password generation.`,
 
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
+
+		help, _ := cmd.Flags().GetBool("help")
+		if help {
+			return
+		}
+
 		length, _ := cmd.Flags().GetInt("length")
 		sC, _ := cmd.Flags().GetBool("special")
 
@@ -68,6 +71,7 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
+	rootCmd.Flags().BoolP("help", "h", false, "--help, -h is used to show the help menu")
 	rootCmd.Flags().BoolP("special", "s", false, "--spacial/-s flag is used to include special characters in the generated password")
-	rootCmd.Flags().IntP("length", "l", 8, "--length/-t is used to   to specify password length (default 8)")
+	rootCmd.Flags().IntP("length", "l", 8, "--length/-t is used to specify password length (default 8)")
 }
